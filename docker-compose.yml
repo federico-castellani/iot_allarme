@@ -1,0 +1,25 @@
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./influxdb_data:/var/lib/influxdb2
+      - ./influxdb_config:/etc/influxdb2
+    networks:
+      - iot_network
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+    networks:
+      - iot_network
+
+networks:
+  iot_network:
+    driver: bridge
