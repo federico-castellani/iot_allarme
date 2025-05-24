@@ -33,5 +33,5 @@ class IRM:
             self.timer=self.timer+1
             if(self.timer>2):
                 self.timer=0
-                return self.KEY     
+                return self.KEY
         return -1

@@ -1,0 +1,1 @@
+influx delete --token JXlsndTMgZC-Z8UC-whqGdWezu0SjlyEK9fYLJ-DtQ-_Ud8cx2MTn3c9X8b-6-NouBXXUH08cPeO-tVmcZSdJg== --org microbit-org  --bucket microbit  --start 1970-01-01T00:00:00Z   --stop $(date +"%Y-%m-%dT%H:%M:%SZ")

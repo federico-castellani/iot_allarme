@@ -2,13 +2,22 @@ import gc
 from IRM import *
 from microbit import *
 import radio
+from mb_i2c_lcd1602 import *
+
+l = LCD1620() #scl=19 sda=20
 
 gc.collect()
 radio.on()
 radio.config(group=33)
 
 sens_movement= pin0 #5v
+buzzer = pin1 #3v
+led = pin2 #5v
 sens_ir = pin12 #3v
+
+green_light = pin15
+yellow_light = pin14
+red_light = pin13
 
 sens_ir.set_pull(sens_ir.PULL_UP)
 d = IRM()
@@ -25,42 +34,82 @@ remote_keys = {
     64: "OK"
 }
 
-alarm = True
+alarm = False
 alarm_code = [8, 0, 8, 6]
 code_input = []
 
 movement = False
 
+green_light.write_digital(0)
+yellow_light.write_digital(0)
+red_light.write_digital(1)
+
+led.write_digital(0)
+
+l.puts("Alarm OFF", 0, 1)
+
+light = False
+
 while True:
+    if movement:
+        led.write_digital(light)
+        light = not light
+    
     key = d.get(sens_ir)
     if key!=-1:
         key = remote_keys[key] #replace the key code with the button that was pressed
         display.show(key)
 
-        #check if the key pressed is the right one at the correct index
-        if key == alarm_code[len(code_input)]:
-            code_input.append(key) #if right i add it to the correct keys pressed
-            
-            if alarm_code == code_input:
-                alarm = not alarm #change the state of the alarm
-                radio.send("Alarm")
-                if alarm:
-                    print("Alarm has been turned on")
-                else:
-                    print("Alarm has been turned off")
-                code_input.clear()
-                display.show(Image.YES)
-        else:
+        #silence the alarm only after the button OK is pressed
+        if key == "OK" and movement:
+            radio.send("Alarm SILENCED")
+            print("Alarm has been silenced")
+            yellow_light.write_digital(0)
+            movement = False
+            light = False
+            led.write_digital(0)
+            buzzer.write_digital(0)
+
+        #clear the digits entered
+        if key == "#":
             code_input.clear()
-            display.show(Image.NO)
+            l.puts("    ", 0, 0)
+        
+        #check if the key pressed is a number
+        if type(key) == type(0):
+            l.char(ord(str(key)), len(code_input), 0) #write key on lcd
+            
+            code_input.append(key) #if right i add it to the correct keys pressed
 
-        print(code_input)
+            if len(code_input) == 4:
+                if alarm_code == code_input:
+                    alarm = not alarm #change the state of the alarm
+                    if alarm:
+                        radio.send("Alarm ON")
+                        print("Alarm has been turned on")
+                        green_light.write_digital(1)
+                        red_light.write_digital(0)
+                        l.puts("Alarm ON ", 0, 1)
+                    else:
+                        radio.send("Alarm OFF")
+                        print("Alarm has been turned off")
+                        green_light.write_digital(0)
+                        red_light.write_digital(1)
+                        l.puts("Alarm OFF", 0, 1)
+                    code_input.clear()
+                    l.puts("    ", 0, 0)
+                    display.show(Image.YES)
+                else:
+                    code_input.clear()
+                    l.puts("    ", 0, 0)
+                    display.show(Image.NO)
 
-    if sens_movement.read_digital() == 0: 
-        #limit to 1 the amount of outputs of the movement sensor
-        movement = False
+        print(code_input)       
 
     if sens_movement.read_digital() == 1 and not movement and alarm:
         print("Movement")
         radio.send("Movement")
+        yellow_light.write_digital(1)
         movement = True
+        light = True
+        buzzer.write_digital(1)

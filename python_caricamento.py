@@ -4,17 +4,16 @@ import radio
 radio.on()
 radio.config(group=33)
 
-alarm = True
-display.show(Image.YES)
+alarm = False
+display.show(Image.NO)
 
 while True:
     message = radio.receive()
     if message:
-        if message == "Alarm":
-            alarm = not alarm
-            if alarm:
-                display.show(Image.YES)
-            else:
-                display.show(Image.NO)
         print(message)
-        
+        if message == "Alarm ON":
+            alarm = True
+            display.show(Image.YES)
+        elif message == "Alarm OFF":
+            alarm = False
+            display.show(Image.NO)
