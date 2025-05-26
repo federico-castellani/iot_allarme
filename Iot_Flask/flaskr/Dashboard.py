@@ -16,4 +16,4 @@ current_time = now.strftime("%H:%M:%S")
 
 @bp.route('/')
 def dashboard():
-    return render_template('Dashboard.html')
+    return render_template('Dashboard.html', time=current_time)
