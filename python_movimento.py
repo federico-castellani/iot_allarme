@@ -58,7 +58,6 @@ while True:
     key = d.get(sens_ir)
     if key!=-1:
         key = remote_keys[key] #replace the key code with the button that was pressed
-        display.show(key)
 
         #silence the alarm only after the button OK is pressed
         if key == "OK" and movement:
@@ -98,11 +97,9 @@ while True:
                         l.puts("Alarm OFF", 0, 1)
                     code_input.clear()
                     l.puts("    ", 0, 0)
-                    display.show(Image.YES)
                 else:
                     code_input.clear()
                     l.puts("    ", 0, 0)
-                    display.show(Image.NO)
 
         print(code_input)       
 

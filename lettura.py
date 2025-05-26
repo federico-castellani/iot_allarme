@@ -1,5 +1,4 @@
 import serial
-import time
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 from datetime import datetime, timezone
@@ -43,8 +42,11 @@ try:
                 write_to_influxdb("Alarm", "SILENCED")
 
         elif line == "Movement":
-                print("Movement detected")
-                write_to_influxdb("Movement", "DETECTED")
+            print("Movement detected")
+            write_to_influxdb("Movement", "DETECTED")
+        
+        else:
+            print("Unknown data received:", line)
 
 except KeyboardInterrupt:
     print("Exiting...")
