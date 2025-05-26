@@ -1,4 +1,7 @@
 import functools
+from datetime import datetime
+
+
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
@@ -6,6 +9,10 @@ from flask import (
 
 
 bp = Blueprint('Dashboard', __name__, url_prefix='/')
+
+now = datetime.now()
+
+current_time = now.strftime("%H:%M:%S")
 
 @bp.route('/')
 def dashboard():
