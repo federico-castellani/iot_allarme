@@ -44,6 +44,9 @@ try:
         elif line == "Movement":
             print("Movement detected")
             write_to_influxdb("Movement", "DETECTED")
+
+        elif line == "A":
+            print("OK") 
         
         else:
             print("Unknown data received:", line)
