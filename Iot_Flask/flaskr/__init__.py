@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask import Blueprint
 
 
 def create_app(test_config=None):
@@ -23,9 +24,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/test')
-    def hello():
-        return 'Hello, World!'
+    from . import Dashboard
+    app.register_blueprint(Dashboard.bp)
 
     return app
