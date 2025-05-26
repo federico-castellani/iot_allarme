@@ -8,7 +8,8 @@ services:
       - ./influxdb_data:/var/lib/influxdb2
       - ./influxdb_config:/etc/influxdb2
     networks:
-      - iot_network
+      iot_network:
+        ipv4_address: 172.20.0.3
 
   grafana:
     image: grafana/grafana-oss:latest
@@ -18,8 +19,13 @@ services:
     volumes:
       - ./grafana_data:/var/lib/grafana
     networks:
-      - iot_network
+      iot_network:
+        ipv4_address: 172.20.0.2
 
 networks:
   iot_network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
