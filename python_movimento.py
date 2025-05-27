@@ -76,6 +76,7 @@ while True:
         
         #check if the key pressed is a number
         if type(key) == type(0):
+            #ord function converts the ascii value of the key to a character
             l.char(ord(str(key)), len(code_input), 0) #write key on lcd
             
             code_input.append(key) #if right i add it to the correct keys pressed
