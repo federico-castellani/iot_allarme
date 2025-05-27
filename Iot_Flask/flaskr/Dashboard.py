@@ -1,6 +1,5 @@
 from datetime import datetime
 from influxdb_client import InfluxDBClient
-from influxdb_client.client.query_api import QueryApi
 
 import serial
 from flask import (
@@ -44,10 +43,10 @@ def update_switch():
 @bp.route('/get_last_status', methods=['GET'])
 def get_last_status():
     try:
-        query = f'''
-            from(bucket:"microbit")
-              |> range(start: -1h)
-              |> filter(fn: (r) => r._measurement == "Alarm")
+        query = '''
+            from(bucket: "microbit")
+              |> range(start: -1d)
+              |> filter(fn: (r) => r._measurement == "Alarm" and (r._field == "status") and (r._value == "ON" or r._value == "OFF"))
               |> sort(columns: ["_time"], desc: true)
               |> limit(n:1)
         '''
