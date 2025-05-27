@@ -15,12 +15,3 @@ function updateSwitchState(status) {
         statusLabel.classList.add("text-danger");
     }
 }
-
-// Set up Server-Sent Events
-const eventSource = new EventSource('/events');
-eventSource.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-    if (data.alarmStatus) {
-        updateSwitchState(data.alarmStatus);
-    }
-};
