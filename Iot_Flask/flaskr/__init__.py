@@ -24,6 +24,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    # import dashboard bp
     from . import Dashboard
     app.register_blueprint(Dashboard.bp)
 

@@ -12,34 +12,23 @@ now = datetime.now()
 
 current_time = now.strftime("%H:%M:%S")
 
+# Connection to influxDB
+
 client = InfluxDBClient(url="http://localhost:8086", token="JXlsndTMgZC-Z8UC-whqGdWezu0SjlyEK9fYLJ-DtQ-_Ud8cx2MTn3c9X8b-6-NouBXXUH08cPeO-tVmcZSdJg==", org="microbit-org")
 bucket = "microbit"
 query_api = client.query_api()
 
+# Serial port option
+ser_scrittura = serial.Serial('/dev/serial/by-id/usb-Arm_BBC_micro:bit_CMSIS-DAP_990536020005283324da877ee04823fa000000006e052820-if01', 115200, timeout=1)
+
+
+# Dashboard Route
 @bp.route('/')
 def dashboard():
     return render_template('Dashboard.html', time=current_time)
 
-ser_scrittura = serial.Serial('/dev/serial/by-id/usb-Arm_BBC_micro:bit_CMSIS-DAP_990536020005283324da877ee04823fa000000006e052820-if01', 115200, timeout=1)
 
-@bp.route('/execute_scrittura', methods=['POST'])
-def execute_scrittura():
-    try:
-        ser_scrittura.write(b'A')
-        ser_scrittura.flush()
-        return jsonify({'status': 'success', 'message': 'Command sent'})
-    except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)}), 500
-
-@bp.route('/update_switch', methods=['POST'])
-def update_switch():
-    status = request.json.get('status')
-    return jsonify({
-        'status': 'success',
-        'alarmStatus': status
-    })
-
-
+# Last alarm status fetch, used to sync the switch on dashboard page load
 @bp.route('/get_last_status', methods=['GET'])
 def get_last_status():
     try:
@@ -59,3 +48,25 @@ def get_last_status():
             return jsonify({'status': 'UNKNOWN'})
     except Exception as e:
         return jsonify({'status': 'ERROR', 'error': str(e)})
+
+# switch update on click
+@bp.route('/update_switch', methods=['POST'])
+def update_switch():
+    status = request.json.get('status')
+    return jsonify({
+        'status': 'success',
+        'alarmStatus': status
+    })
+
+# Serial write route
+@bp.route('/execute_scrittura', methods=['POST'])
+def execute_scrittura():
+    try:
+        ser_scrittura.write(b'A')
+        ser_scrittura.flush()
+        return jsonify({'status': 'success', 'message': 'Command sent'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+
+

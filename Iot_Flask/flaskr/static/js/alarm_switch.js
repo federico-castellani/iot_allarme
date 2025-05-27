@@ -1,12 +1,13 @@
 const switchElement = document.getElementById("alarmSwitch");
 const statusLabel = document.getElementById("alarmStatus");
 
-// Update switch and label text
+// Update switch and label text on the dashboard
 function updateSwitchState(status) {
     const isOn = status === "ON";
     switchElement.checked = isOn;
     statusLabel.textContent = isOn ? "Alarm is ON" : "Alarm is OFF";
 }
+
 
 // Send command when user toggles switch
 switchElement.addEventListener("change", function () {
@@ -25,7 +26,7 @@ switchElement.addEventListener("change", function () {
     });
 });
 
-// 🔄 Fetch last status on page load
+// Fetch last switch status on page load
 window.addEventListener("DOMContentLoaded", () => {
     fetch('/get_last_status')
         .then(response => response.json())
