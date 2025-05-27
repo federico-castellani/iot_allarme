@@ -53,6 +53,8 @@ l.puts("Alarm OFF", 0, 1)
 light = False
 
 def turn_alarm():
+    global alarm
+    alarm = not alarm #change the state of the alarm
     if alarm:
         radio.send("Alarm ON")
         print("Alarm has been turned on")
@@ -70,12 +72,8 @@ while True:
     #uart is used to read the input on the serial
     if uart.any():
         incoming = uart.read().decode('utf-8')
-        display.show(incoming)
-        print(incoming)
         if incoming == "A":
             turn_alarm()
-        else:
-            display.show(Image.NO)
     
     if movement:
         led.write_digital(light)
@@ -109,7 +107,6 @@ while True:
 
             if len(code_input) == 4:
                 if alarm_code == code_input:
-                    alarm = not alarm #change the state of the alarm
                     turn_alarm()
                     code_input.clear()
                     l.puts("    ", 0, 0)
