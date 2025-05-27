@@ -4,6 +4,8 @@ from microbit import *
 import radio
 from mb_i2c_lcd1602 import *
 
+uart.init(baudrate=115200)
+
 l = LCD1620() #scl=19 sda=20
 
 gc.collect()
@@ -50,7 +52,31 @@ l.puts("Alarm OFF", 0, 1)
 
 light = False
 
+def turn_alarm():
+    if alarm:
+        radio.send("Alarm ON")
+        print("Alarm has been turned on")
+        green_light.write_digital(1)
+        red_light.write_digital(0)
+        l.puts("Alarm ON ", 0, 1)
+    else:
+        radio.send("Alarm OFF")
+        print("Alarm has been turned off")
+        green_light.write_digital(0)
+        red_light.write_digital(1)
+        l.puts("Alarm OFF", 0, 1)
+
 while True:
+    #uart is used to read the input on the serial
+    if uart.any():
+        incoming = uart.read().decode('utf-8')
+        display.show(incoming)
+        print(incoming)
+        if incoming == "A":
+            turn_alarm()
+        else:
+            display.show(Image.NO)
+    
     if movement:
         led.write_digital(light)
         light = not light
@@ -84,18 +110,7 @@ while True:
             if len(code_input) == 4:
                 if alarm_code == code_input:
                     alarm = not alarm #change the state of the alarm
-                    if alarm:
-                        radio.send("Alarm ON")
-                        print("Alarm has been turned on")
-                        green_light.write_digital(1)
-                        red_light.write_digital(0)
-                        l.puts("Alarm ON ", 0, 1)
-                    else:
-                        radio.send("Alarm OFF")
-                        print("Alarm has been turned off")
-                        green_light.write_digital(0)
-                        red_light.write_digital(1)
-                        l.puts("Alarm OFF", 0, 1)
+                    turn_alarm()
                     code_input.clear()
                     l.puts("    ", 0, 0)
                 else:

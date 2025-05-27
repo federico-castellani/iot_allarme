@@ -7,7 +7,7 @@ radio.config(group=33)
 alarm = False
 display.show(Image.NO)
 
-while True:
+while True:    
     message = radio.receive()
     if message:
         print(message)

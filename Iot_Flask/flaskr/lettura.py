@@ -34,37 +34,39 @@ def update_dashboard(status):
 
 try:
     while True:
-        line = ser.readline().decode().strip()
+        try:
+            line = ser.readline().decode().strip()
 
-        if line.startswith("Alarm"):
 
-            alarm_type = line.split(" ")[1]
-
-            if alarm_type == "ON":
+            if line == "on":
                 print("Alarm has been turned ON")
                 write_to_influxdb("Alarm", "ON")
                 update_dashboard("ON")
 
 
-            elif alarm_type == "OFF":
+            elif line == "off":
                 print("Alarm has been turned OFF")
                 write_to_influxdb("Alarm", "OFF")
                 update_dashboard("OFF")
 
 
-            elif alarm_type == "SILENCED":
+            elif line == "s":
                 print("Alarm has been SILENCED")
                 write_to_influxdb("Alarm", "SILENCED")
 
-        elif line == "Movement":
-            print("Movement detected")
-            write_to_influxdb("Movement", "DETECTED")
+            elif line == "m":
+                print("Movement detected")
+                write_to_influxdb("Movement", "DETECTED")
 
-        elif line == "A":
-            print("OK") 
-        
-        else:
-            print("Unknown data received:", line)
+            elif line == "A":
+                print("OK")
+
+            else:
+                print("Unknown data received:", line)
+            ser.reset_input_buffer()
+
+        except Exception as e:
+            print(f"Error reading serial data: {e}")
 
 except KeyboardInterrupt:
     print("Exiting...")

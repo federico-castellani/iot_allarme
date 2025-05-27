@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCC Alarm Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -27,39 +26,19 @@
         <div class="row gx-4">
             <div class="col-md-6 dashboard-container">
                 <iframe class="dashboards"
-                        src="http://localhost:3000/d-solo/506e1d49-0304-4e67-814b-b3f1f20a91d5/info?orgId=1&from=1748231672964&to=1748253272964&timezone=browser&theme=light&panelId=1&__feature.dashboardSceneSolo"
+                        src="http://localhost:3000/d-solo/506e1d49-0304-4e67-814b-b3f1f20a91d5/info?orgId=1&timezone=browser&theme=light&panelId=1&__feature.dashboardSceneSolo"
                 ></iframe>
             </div>
             <div class="col-md-6 dashboard-container">
                 <iframe class="dashboards"
-                        src="http://localhost:3000/d-solo/506e1d49-0304-4e67-814b-b3f1f20a91d5/info?orgId=1&from=1748237846141&to=1748259446141&timezone=browser&theme=light&panelId=2&__feature.dashboardSceneSolo"
+                        src="http://localhost:3000/d-solo/506e1d49-0304-4e67-814b-b3f1f20a91d5/info?orgId=1&timezone=browser&theme=light&panelId=2&__feature.dashboardSceneSolo"
                 ></iframe>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        const switchElement = document.getElementById("alarmSwitch");
-        const statusLabel = document.getElementById("alarmStatus");
-
-        switchElement.addEventListener("change", function () {
-            const newStatus = this.checked ? "ON" : "OFF";
-
-            fetch('/execute_scrittura', {
-                method: 'POST',
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                updateSwitchState(newStatus);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        });
-
-    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/alarm_switch.js') }}"></script>
 </body>
 </html>
