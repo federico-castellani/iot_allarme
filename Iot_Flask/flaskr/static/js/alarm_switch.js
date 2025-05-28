@@ -1,7 +1,8 @@
 const switchElement = document.getElementById("alarmSwitch");
 const statusLabel = document.getElementById("alarmStatus");
 
-// Update switch and label text on the dashboard
+
+// Function to update switch and label text on the dashboard
 function updateSwitchState(status) {
     const isOn = status === "ON";
     switchElement.checked = isOn;
@@ -9,11 +10,12 @@ function updateSwitchState(status) {
 }
 
 
-// Send command when user toggles switch
+// Send command to alarm when user toggles switch
 switchElement.addEventListener("change", function () {
+
     const newStatus = this.checked ? "ON" : "OFF";
 
-    fetch('/execute_scrittura', {
+    fetch('/execute_write', {
         method: 'POST',
     })
     .then(response => response.json())
@@ -25,6 +27,7 @@ switchElement.addEventListener("change", function () {
         console.error('Error:', error);
     });
 });
+
 
 // Fetch last switch status on page load
 window.addEventListener("DOMContentLoaded", () => {

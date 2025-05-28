@@ -8,9 +8,12 @@ ser = serial.Serial('/dev/serial/by-id/usb-Arm_BBC_micro:bit_CMSIS-DAP_990636020
 client = InfluxDBClient(url="http://localhost:8086", token="JXlsndTMgZC-Z8UC-whqGdWezu0SjlyEK9fYLJ-DtQ-_Ud8cx2MTn3c9X8b-6-NouBXXUH08cPeO-tVmcZSdJg==", org="microbit-org")
 bucket = "microbit"
 
+# function to write on db 
 def write_to_influxdb(dataType, data):
+    
     timestamp = datetime.now(timezone.utc)
     write_api = client.write_api(write_options=SYNCHRONOUS)
+    
     try:
         point = (
             Point(dataType)  
@@ -18,9 +21,11 @@ def write_to_influxdb(dataType, data):
             .time(timestamp, WritePrecision.NS)
         )
         write_api.write(bucket=bucket, record=point)
+    
     except Exception as e:
         print(f"Error writing to InfluxDB: {e}")
 
+# Read data from serial port and write it to DB
 try:
     while True:
         line = ser.readline().decode().strip()
@@ -42,7 +47,7 @@ try:
             write_to_influxdb("Movement", "DETECTED")
 
         elif line == "A":
-            print("OK") 
+            print("OK")
         
         else:
             print("Unknown data received:", line)

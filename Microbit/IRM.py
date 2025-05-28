@@ -1,4 +1,7 @@
+# Code for the infrared receiver
+
 import machine
+
 class IRM:
     def __init__(self):
         self.KEY=-1
