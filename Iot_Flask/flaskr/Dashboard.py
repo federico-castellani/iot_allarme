@@ -11,7 +11,7 @@ bucket = "microbit"
 query_api = client.query_api()
 
 # Serial port option
-ser_scrittura = serial.Serial('/dev/serial/by-id/usb-Arm_BBC_micro:bit_CMSIS-DAP_990536020005283324da877ee04823fa000000006e052820-if01', 115200, timeout=1)
+ser_scrittura = serial.Serial('/dev/serial/by-id/usb-Arm_BBC_micro:bit_CMSIS-DAP_99063602000528205c9da592a8e64dec000000006e052820-if01', 115200, timeout=1)
 
 
 # Dashboard Route

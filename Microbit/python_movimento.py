@@ -4,14 +4,13 @@ from microbit import *
 import radio
 from mb_i2c_lcd1602 import *
 
-#Initialize UART for serial communication
-uart.init(baudrate=115200)
-
 # LCD
 l = LCD1620() #scl=19 sda=20
 
-# Initialize radio
+#garbage collector for IR receiver
 gc.collect()
+
+# Initialize radio
 radio.on()
 radio.config(group=33)
 
@@ -81,11 +80,11 @@ def turn_alarm():
 
 # Main loop
 while True:
-
-    # uart is used to read the input on the serial
-    if uart.any():
-        incoming = uart.read().decode('utf-8')
-        if incoming == "A":
+    # check if the radio received a message
+    # and if the message is "A", turn the alarm on or off
+    message = radio.receive()
+    if message:
+        if message == "A":
             turn_alarm()
 
     # check if the alarm is on
