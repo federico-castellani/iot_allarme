@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask
-from flask import Blueprint
 
 
 def create_app(test_config=None):

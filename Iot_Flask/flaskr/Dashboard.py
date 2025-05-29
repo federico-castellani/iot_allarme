@@ -1,6 +1,6 @@
 from influxdb_client import InfluxDBClient
 import serial
-from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify)
+from flask import (Blueprint, render_template, request, jsonify)
 
 # bp definition
 bp = Blueprint('Dashboard', __name__, url_prefix='/')
