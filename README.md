@@ -153,4 +153,4 @@ Serial port access requires elevated permissions for direct hardware communicati
 
 ## License
 
-[Add your license information here]
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
