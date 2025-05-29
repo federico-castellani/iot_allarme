@@ -9,6 +9,21 @@ function updateSwitchState(status) {
     statusLabel.textContent = isOn ? "Alarm is ON" : "Alarm is OFF";
 }
 
+function fetchSwitchState() {
+    fetch('/get_last_status')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "ON" || data.status === "OFF") {
+                updateSwitchState(data.status);
+            } else {
+                console.warn("Unknown or missing status:", data.status);
+            }
+        })
+        .catch(error => {
+            console.error("Failed to fetch last status:", error);
+        });
+}
+
 
 // Send command to alarm when user toggles switch
 switchElement.addEventListener("change", function () {
@@ -31,16 +46,7 @@ switchElement.addEventListener("change", function () {
 
 // Fetch last switch status on page load
 window.addEventListener("DOMContentLoaded", () => {
-    fetch('/get_last_status')
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "ON" || data.status === "OFF") {
-                updateSwitchState(data.status);
-            } else {
-                console.warn("Unknown or missing status:", data.status);
-            }
-        })
-        .catch(error => {
-            console.error("Failed to fetch last status:", error);
-        });
+    fetchSwitchState()
 });
+
+setInterval(fetchSwitchState, 2000);
