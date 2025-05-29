@@ -39,7 +39,7 @@ try:
             write_to_influxdb("Alarm", "OFF")
 
         elif line == "s":
-            print("Alarm has been SILENCED")
+            print("Alarm SILENCED")
             write_to_influxdb("Alarm", "SILENCED")
 
         elif line == "m":
