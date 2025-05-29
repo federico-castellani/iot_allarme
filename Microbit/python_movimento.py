@@ -4,7 +4,7 @@ from microbit import *
 import radio
 from mb_i2c_lcd1602 import *
 
-#
+#Initialize UART for serial communication
 uart.init(baudrate=115200)
 
 # LCD
@@ -93,7 +93,7 @@ while True:
         led.write_digital(light)
         light = not light
 
-    #
+    #get value from the IR receiver
     key = d.get(sens_ir)
     if key!=-1:
         key = remote_keys[key] #replace the key code with the button that was pressed
@@ -138,7 +138,7 @@ while True:
 
         print(code_input)       
 
-    #
+    #movement sensor check
     if sens_movement.read_digital() == 1 and not movement and alarm:
         print("Movement")
         radio.send("Movement")
