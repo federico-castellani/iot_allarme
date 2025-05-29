@@ -78,6 +78,19 @@ def turn_alarm():
         red_light.write_digital(1)
         l.puts("Alarm OFF", 0, 1)
 
+# function used to silence the alarm
+def silence_alarm():
+    global movement, light
+    
+    if movement:
+        radio.send("Alarm SILENCED")
+        print("Alarm has been silenced")
+        yellow_light.write_digital(0)
+        movement = False
+        light = False
+        led.write_digital(0)
+        buzzer.write_digital(0)
+
 # Main loop
 while True:
     # check if the radio received a message
@@ -86,6 +99,8 @@ while True:
     if message:
         if message == "A":
             turn_alarm()
+        elif message == "S":
+            silence_alarm()
 
     # check if the alarm is on
     if movement:
@@ -98,14 +113,8 @@ while True:
         key = remote_keys[key] #replace the key code with the button that was pressed
 
         # Silence the alarm only after the button OK is pressed
-        if key == "OK" and movement:
-            radio.send("Alarm SILENCED")
-            print("Alarm has been silenced")
-            yellow_light.write_digital(0)
-            movement = False
-            light = False
-            led.write_digital(0)
-            buzzer.write_digital(0)
+        if key == "OK":
+            silence_alarm()
 
         # Clear the digits entered when "#" is pressed
         if key == "#":
