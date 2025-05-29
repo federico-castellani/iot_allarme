@@ -92,7 +92,7 @@ while True:
         led.write_digital(light)
         light = not light
 
-    #get value from the IR receiver
+    # get value from the IR receiver
     key = d.get(sens_ir)
     if key!=-1:
         key = remote_keys[key] #replace the key code with the button that was pressed
@@ -137,7 +137,7 @@ while True:
 
         print(code_input)       
 
-    #movement sensor check
+    # movement sensor check
     if sens_movement.read_digital() == 1 and not movement and alarm:
         print("Movement")
         radio.send("Movement")

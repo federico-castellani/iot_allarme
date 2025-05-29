@@ -10,7 +10,7 @@ client = InfluxDBClient(url="http://localhost:8086", token="JXlsndTMgZC-Z8UC-whq
 bucket = "microbit"
 query_api = client.query_api()
 
-# Serial port option
+# Serial port
 ser_scrittura = serial.Serial('/dev/serial/by-id/usb-Arm_BBC_micro:bit_CMSIS-DAP_99063602000528205c9da592a8e64dec000000006e052820-if01', 115200, timeout=1)
 
 
