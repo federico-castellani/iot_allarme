@@ -19,6 +19,7 @@ while True:
         logo_touched = True
         print("touched")
         radio.send("S")
+
     # reset logo_touched after the inputs stop
     elif not pin_logo.is_touched() and logo_touched:
         logo_touched = False

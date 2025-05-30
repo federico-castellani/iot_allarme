@@ -97,8 +97,10 @@ while True:
     # and if the message is "A", turn the alarm on or off
     message = radio.receive()
     if message:
+
         if message == "A":
             turn_alarm()
+
         elif message == "S":
             silence_alarm()
 
