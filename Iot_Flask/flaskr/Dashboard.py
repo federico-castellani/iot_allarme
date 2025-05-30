@@ -70,4 +70,23 @@ def execute_write():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 
+# Store user's preferred time period
+@bp.route('/set_time_period', methods=['POST'])
+def set_time_period():
+    try:
+        period = request.json.get('period')
+        # You could store this in a session, database, or config file
+        # For now, just return success
+        return jsonify({'status': 'success', 'period': period})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
+# Get user's preferred time period
+@bp.route('/get_time_period', methods=['GET'])
+def get_time_period():
+    try:
+        # Return default or stored period
+        default_period = '1h'
+        return jsonify({'status': 'success', 'period': default_period})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)}), 500

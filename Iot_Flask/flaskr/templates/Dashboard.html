@@ -16,22 +16,43 @@
     </nav>
 
     <div class="container mb-4">
-        <div class="form-check form-switch d-flex align-items-center">
-            <input class="form-check-input" type="checkbox" id="alarmSwitch" role="switch">
-            <label class="form-check-label ms-2 fs-5" for="alarmSwitch" id="alarmStatus">Alarm is OFF</label>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="form-check form-switch d-flex align-items-center">
+                    <input class="form-check-input" type="checkbox" id="alarmSwitch" role="switch">
+                    <label class="form-check-label ms-2 fs-5" for="alarmSwitch" id="alarmStatus">Alarm is OFF</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <label for="timePeriod" class="form-label me-2 fs-6">Time Period:</label>
+                    <select class="form-select" id="timePeriod" style="width: auto;">
+                        <option value="5m">Last 5 minutes</option>
+                        <option value="15m">Last 15 minutes</option>
+                        <option value="30m">Last 30 minutes</option>
+                        <option value="1h" selected>Last 1 hour</option>
+                        <option value="3h">Last 3 hours</option>
+                        <option value="6h">Last 6 hours</option>
+                        <option value="12h">Last 12 hours</option>
+                        <option value="1d">Last 1 day</option>
+                        <option value="3d">Last 3 days</option>
+                        <option value="7d">Last 7 days</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="container">
         <div class="row gx-4">
             <div class="col-md-6 dashboard-container">
-                <iframe class="dashboards"
-                        src="http://localhost:3000/d-solo/506e1d49-0304-4e67-814b-b3f1f20a91d5/info?orgId=1&timezone=browser&refresh=5s&theme=light&panelId=1&__feature.dashboardSceneSolo"
+                <iframe class="dashboards" id="dashboard1"
+                        src="http://localhost:3000/d-solo/506e1d49-0304-4e67-814b-b3f1f20a91d5/info?orgId=1&timezone=browser&refresh=5s&theme=light&panelId=1&from=now-1h&to=now&__feature.dashboardSceneSolo"
                 ></iframe>
             </div>
             <div class="col-md-6 dashboard-container">
-                <iframe class="dashboards"
-                        src="http://localhost:3000/d-solo/506e1d49-0304-4e67-814b-b3f1f20a91d5/info?orgId=1&timezone=browser&refresh=5s&theme=light&panelId=2&__feature.dashboardSceneSolo"
+                <iframe class="dashboards" id="dashboard2"
+                        src="http://localhost:3000/d-solo/506e1d49-0304-4e67-814b-b3f1f20a91d5/info?orgId=1&timezone=browser&refresh=5s&theme=light&panelId=2&from=now-1h&to=now&__feature.dashboardSceneSolo"
                 ></iframe>
             </div>
         </div>
