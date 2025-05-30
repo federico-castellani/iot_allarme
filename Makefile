@@ -12,6 +12,8 @@ prepare:
 
 start: prepare
 	docker-compose up -d
+	cd Iot_Flask; \
+	sudo flask --app flaskr run --debug
 
 stop:
 	docker-compose down
